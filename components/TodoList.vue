@@ -1,9 +1,9 @@
 <template>
   <ul class="todo-list" v-for="task in tasks" :key="task.id">
-    <li class="todo-item">
+    <li class="todo-item" :class="isCompleted(task.completed)">
       <span class="todo-text">{{ task.text }}</span>
       <div class="todo-actions">
-        <a class="check-link">check</a>
+        <a class="check-link" @click="handleCheck(task.id)">check</a>
         <span class="separator">|</span>
         <a class="edit-link">edit</a>
         <span class="separator">|</span>
@@ -14,7 +14,21 @@
 </template>
 
 <script setup lang="ts">
-defineProps({ tasks: Array });
+import type { Task } from "@/typs";
+
+const props = defineProps<{ tasks: Task[] }>();
+
+const handleCheck = (id: number) => {
+  const task = props.tasks?.find((task) => task.id === id);
+
+  if (task) {
+    task.completed = !task.completed;
+  }
+};
+
+const isCompleted = (completed: boolean) => {
+  return completed ? "completed" : "";
+};
 </script>
 
 <style>
