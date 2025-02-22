@@ -1,7 +1,7 @@
 <template>
   <div class="input-form">
-    <form @submit="">
-      <input type="text" v-model="inputText" @change="handleChange" />
+    <form @submit="handleSubmit">
+      <input type="text" v-model="inputText" />
       <button className="add-button">
         <span className="material-icons icon">add</span>
       </button>
@@ -11,6 +11,23 @@
 
 <script setup lang="ts">
 const inputText = ref("");
+
+const taskList = defineProps({ value: Array });
+
+const emit = defineEmits(["updateTaskList"]);
+
+const handleSubmit = (event: HTMLFormElement) => {
+  event.preventDefault();
+
+  emit("updateTaskList", {
+    id: taskList.value?.length,
+    title: inputText.value,
+    completed: false,
+    editing: false,
+  });
+
+  inputText.value = "";
+};
 </script>
 
 <style>
