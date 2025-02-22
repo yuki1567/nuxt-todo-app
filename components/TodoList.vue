@@ -2,11 +2,17 @@
   <ul class="todo-list" v-for="task in tasks" :key="task.id">
     <li class="todo-item" :class="isCompleted(task.isCompleted)">
       <span v-if="!task.isEditing" class="todo-text">{{ task.text }}</span>
-      <input v-else class="edit-input" />
+      <input v-else class="edit-input" v-model="inputText" />
       <div class="todo-actions">
         <a class="check-link" @click="handleCheck(task.id)">check</a>
         <span class="separator">|</span>
-        <a class="edit-link" @click="handleEdit(task.id)">edit</a>
+        <a
+          v-if="!task.isEditing"
+          class="edit-link"
+          @click="handleEdit(task.id, task.text)"
+          >edit</a
+        >
+        <a v-else class="save-link" @click="handleSave(task.id)">save</a>
         <span class="separator">|</span>
         <a class="delete-link">delete</a>
       </div>
@@ -17,9 +23,11 @@
 <script setup lang="ts">
 import type { Task } from "@/typs";
 
-const props = defineProps<{ tasks: Task[] }>();
+defineProps<{ tasks: Task[] }>();
 
-const emit = defineEmits(["completedTask", "editTask"]);
+const emit = defineEmits(["completedTask", "editTask", "saveTask"]);
+
+const inputText = ref("");
 
 const handleCheck = (id: number) => {
   emit("completedTask", id);
@@ -29,10 +37,13 @@ const isCompleted = (completed: boolean) => {
   return completed ? "completed" : "";
 };
 
-const handleEdit = (id: number) => {
+const handleEdit = (id: number, text: string) => {
+  inputText.value = text;
   emit("editTask", id);
+};
 
-  console.log(props.tasks);
+const handleSave = (id: number) => {
+  emit("saveTask", id, inputText.value);
 };
 </script>
 

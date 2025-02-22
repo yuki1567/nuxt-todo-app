@@ -8,6 +8,7 @@
       :tasks="taskList"
       @completedTask="completedTask"
       @editTask="editTask"
+      @saveTask="saveTask"
     />
   </main>
 </template>
@@ -37,6 +38,16 @@ const editTask = (id: number) => {
   taskList.value = taskList.value.map((task) => {
     if (task.id === id) {
       task.isEditing = true;
+    }
+    return task;
+  });
+};
+
+const saveTask = (id: number, newText: string) => {
+  taskList.value = taskList.value.map((task) => {
+    if (task.id === id) {
+      task.text = newText;
+      task.isEditing = false;
     }
     return task;
   });
