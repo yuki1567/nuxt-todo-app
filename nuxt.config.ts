@@ -9,4 +9,7 @@ export default defineNuxtConfig({
       meta: [{ charset: "utf-8" }],
     },
   },
+  devServer: {
+    port: 3001,
+  },
 });
