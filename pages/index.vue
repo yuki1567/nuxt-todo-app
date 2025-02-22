@@ -4,6 +4,7 @@
   </header>
   <main>
     <InputForm :value="taskList" @updateTaskList="updateTaskList" />
+    <TodoList :value="taskList" />
   </main>
 </template>
 
@@ -11,6 +12,7 @@
 import Title from "@/components/Title.vue";
 import InputForm from "@/components/InputForm.vue";
 import type { Task } from "@/typs";
+import TodoList from "@/components/TodoList.vue";
 
 const taskList = reactive<Task[]>([]);
 

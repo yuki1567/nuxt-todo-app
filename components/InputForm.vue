@@ -21,7 +21,7 @@ const handleSubmit = (event: HTMLFormElement) => {
 
   emit("updateTaskList", {
     id: taskList.value?.length,
-    title: inputText.value,
+    text: inputText.value,
     completed: false,
     editing: false,
   });
