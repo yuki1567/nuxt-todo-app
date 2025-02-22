@@ -14,7 +14,7 @@
         >
         <a v-else class="save-link" @click="handleSave(task.id)">save</a>
         <span class="separator">|</span>
-        <a class="delete-link">delete</a>
+        <a class="delete-link" @click="handleDelete(task.id)">delete</a>
       </div>
     </li>
   </ul>
@@ -25,7 +25,12 @@ import type { Task } from "@/typs";
 
 defineProps<{ tasks: Task[] }>();
 
-const emit = defineEmits(["completedTask", "editTask", "saveTask"]);
+const emit = defineEmits([
+  "completedTask",
+  "editTask",
+  "saveTask",
+  "deleteTask",
+]);
 
 const inputText = ref("");
 
@@ -44,6 +49,10 @@ const handleEdit = (id: number, text: string) => {
 
 const handleSave = (id: number) => {
   emit("saveTask", id, inputText.value);
+};
+
+const handleDelete = (id: number) => {
+  emit("deleteTask", id);
 };
 </script>
 

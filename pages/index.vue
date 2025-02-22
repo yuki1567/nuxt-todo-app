@@ -9,6 +9,7 @@
       @completedTask="completedTask"
       @editTask="editTask"
       @saveTask="saveTask"
+      @deleteTask="deleteTask"
     />
   </main>
 </template>
@@ -51,6 +52,10 @@ const saveTask = (id: number, newText: string) => {
     }
     return task;
   });
+};
+
+const deleteTask = (id: number) => {
+  taskList.value = taskList.value.filter((task) => task.id !== id);
 };
 </script>
 
