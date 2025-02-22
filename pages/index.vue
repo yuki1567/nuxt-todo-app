@@ -3,8 +3,8 @@
     <Title />
   </header>
   <main>
-    <InputForm :value="taskList" @updateTaskList="updateTaskList" />
-    <TodoList :value="taskList" />
+    <InputForm :tasks="taskList" @addTask="addTask" />
+    <TodoList :tasks="taskList" />
   </main>
 </template>
 
@@ -14,10 +14,10 @@ import InputForm from "@/components/InputForm.vue";
 import type { Task } from "@/typs";
 import TodoList from "@/components/TodoList.vue";
 
-const taskList = reactive<Task[]>([]);
+const taskList = ref<Task[]>([]);
 
-const updateTaskList = (updateValue: Task) => {
-  taskList.push(updateValue);
+const addTask = (newTask: Task) => {
+  taskList.value.push(newTask);
 };
 </script>
 

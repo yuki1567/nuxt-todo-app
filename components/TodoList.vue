@@ -1,5 +1,5 @@
 <template>
-  <ul class="todo-list" v-for="task in value">
+  <ul class="todo-list" v-for="task in tasks" :key="task.id">
     <li class="todo-item">
       <span class="todo-text">{{ task.text }}</span>
       <div class="todo-actions">
@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({ value: Array });
+defineProps({ tasks: Array });
 </script>
 
 <style>

@@ -12,19 +12,21 @@
 <script setup lang="ts">
 const inputText = ref("");
 
-const taskList = defineProps({ value: Array });
+const props = defineProps({ tasks: Array });
 
-const emit = defineEmits(["updateTaskList"]);
+const emit = defineEmits(["addTask"]);
 
-const handleSubmit = (event: HTMLFormElement) => {
+const handleSubmit = (event: Event) => {
   event.preventDefault();
 
-  emit("updateTaskList", {
-    id: taskList.value?.length,
+  const newTask = {
+    id: props.tasks?.length,
     text: inputText.value,
     completed: false,
     editing: false,
-  });
+  };
+
+  emit("addTask", newTask);
 
   inputText.value = "";
 };
