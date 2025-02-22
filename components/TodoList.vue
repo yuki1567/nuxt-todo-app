@@ -1,11 +1,12 @@
 <template>
   <ul class="todo-list" v-for="task in tasks" :key="task.id">
-    <li class="todo-item" :class="isCompleted(task.completed)">
-      <span class="todo-text">{{ task.text }}</span>
+    <li class="todo-item" :class="isCompleted(task.isCompleted)">
+      <span v-if="!task.isEditing" class="todo-text">{{ task.text }}</span>
+      <input v-else class="edit-input" />
       <div class="todo-actions">
         <a class="check-link" @click="handleCheck(task.id)">check</a>
         <span class="separator">|</span>
-        <a class="edit-link">edit</a>
+        <a class="edit-link" @click="handleEdit(task.id)">edit</a>
         <span class="separator">|</span>
         <a class="delete-link">delete</a>
       </div>
@@ -18,16 +19,20 @@ import type { Task } from "@/typs";
 
 const props = defineProps<{ tasks: Task[] }>();
 
-const handleCheck = (id: number) => {
-  const task = props.tasks?.find((task) => task.id === id);
+const emit = defineEmits(["completedTask", "editTask"]);
 
-  if (task) {
-    task.completed = !task.completed;
-  }
+const handleCheck = (id: number) => {
+  emit("completedTask", id);
 };
 
 const isCompleted = (completed: boolean) => {
   return completed ? "completed" : "";
+};
+
+const handleEdit = (id: number) => {
+  emit("editTask", id);
+
+  console.log(props.tasks);
 };
 </script>
 
@@ -84,8 +89,8 @@ const isCompleted = (completed: boolean) => {
 }
 
 .edit-input {
-  padding: 0px 3px;
-  border: solid rgb(218 220 222);
+  padding: 0px 5px;
+  border: 1px solid rgb(218 220 222);
   border-radius: 3px;
 }
 </style>
